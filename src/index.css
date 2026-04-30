@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap");
+@import "tailwindcss";
+
+:root {
+  --bg-primary: #08090f;
+  --bg-secondary: #0e1018;
+  --bg-card: #13151f;
+  --border: #1e2133;
+  --text-primary: #f2f2fa;
+  --text-secondary: #a0a5c0;
+  --text-muted: #5a5f7a;
+  --accent: #f5b731;
+  --green: #34d399;
+  --red: #f87171;
+  --blue: #60a5fa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  font-family: "DM Sans", sans-serif;
+  background: linear-gradient(180deg, #08090f 0%, #0c0e18 50%, #08090f 100%);
+  color: var(--text-primary);
+}
+
+.card {
+  border: 1px solid var(--border);
+  background: linear-gradient(145deg, #15172200 0%, #13151f 100%);
+  border-radius: 16px;
+}
