@@ -116,7 +116,7 @@ export default function CustomerPresentation({
         </button>
       </div>
 
-      <header className="mx-auto max-w-5xl px-6 pb-8 pt-10 text-center">
+      <header className="mx-auto max-w-[1400px] px-6 pb-8 pt-10 text-center">
         <div className="mb-4 flex items-center justify-center gap-2">
           <IconSun />
           <span className="font-['Outfit'] text-xl font-extrabold">Sunbright HVAC</span>
@@ -133,7 +133,7 @@ export default function CustomerPresentation({
         </p>
       </header>
 
-      <div className="customer-tiers mx-auto flex max-w-5xl flex-col gap-8 px-6">
+      <div className="customer-tiers mx-auto grid max-w-[1400px] grid-cols-1 gap-4 px-6 xl:grid-cols-4">
         {activeTiers.map((tier, idx) => {
           const tierSystems = getTierSystems(tier)
           if (tierSystems.length === 0) return null
@@ -163,40 +163,43 @@ export default function CustomerPresentation({
           return (
             <section
               key={tier.name}
-              className={`customer-tier overflow-hidden rounded-2xl border ${
+              className={`customer-tier flex min-h-0 flex-col overflow-hidden rounded-2xl border ${
                 tier.name === "Premier"
-                  ? "border-[color:var(--accent)_/_0.35] shadow-[0_0_80px_rgba(245,183,49,0.05)]"
+                  ? "border-[color:var(--accent)_/_0.35] shadow-[0_0_0_1px_rgba(245,183,49,0.1),0_8px_40px_rgba(245,183,49,0.1)]"
                   : "border-[var(--border)]"
               } bg-[linear-gradient(165deg,#16182400_0%,#13151f_100%)]`}
             >
               <div
-                className={`relative border-b border-[var(--border)] px-8 py-8 text-center ${
+                className={`relative border-b border-[var(--border)] px-5 py-5 text-center ${
                   tier.name === "Premier" ? "bg-[linear-gradient(160deg,rgba(245,183,49,0.1)_0%,rgba(245,183,49,0.02)_40%,transparent_100%)]" : ""
                 }`}
               >
                 {tier.name === "Premier" && (
-                  <div className="absolute right-4 top-4 rounded-full bg-[linear-gradient(135deg,#F5B731_0%,#E8A020_100%)] px-3 py-1 text-[10px] font-bold uppercase text-[#0a0c14]">
+                  <div className="absolute right-2 top-2 rounded-full bg-[var(--accent)] px-2.5 py-0.5 text-[9px] font-bold uppercase leading-tight text-[#0a0c14] xl:right-3 xl:top-3 xl:px-3 xl:py-1 xl:text-[10px]">
                     ★ Recommended
                   </div>
                 )}
-                <div className="font-['Outfit'] text-2xl font-bold">{tier.name}</div>
-                <div className="mt-4 font-['Outfit'] text-4xl font-extrabold text-[var(--accent)]">{fmt(monthly)}</div>
-                <div className="text-sm text-[var(--text-muted)]">per month · as low as</div>
-                <div className="mt-4 text-[var(--text-secondary)]">
-                  or <strong className="text-[var(--text-primary)]">{fmt(cashPrice)}</strong> cash
+                <div className="font-['Outfit'] text-lg font-bold">{tier.name}</div>
+                <div className="mt-2 font-['Outfit'] text-2xl font-extrabold text-[var(--accent)]">
+                  {fmt(monthly)}
+                  <span className="text-sm font-normal text-[var(--text-muted)]">/mo</span>
+                </div>
+                <div className="text-xs text-[var(--text-muted)]">as low as · per month</div>
+                <div className="mt-3 text-xs text-[var(--text-secondary)]">
+                  <strong className="text-[var(--text-primary)]">{fmt(cashPrice)}</strong> cash
                   {tier.multiplier < 1 && (
-                    <span className="ml-2 text-sm font-semibold text-[var(--green)]">{Math.round((1 - tier.multiplier) * 100)}% discount applied</span>
+                    <span className="mt-1 block font-semibold text-[var(--green)]">{Math.round((1 - tier.multiplier) * 100)}% discount applied</span>
                   )}
                 </div>
               </div>
 
-              <div className="space-y-6 px-8 py-8">
+              <div className="flex min-h-0 flex-1 flex-col space-y-4 px-4 py-4 xl:px-5 xl:py-5">
                 {tierSystems.some((ts) => ts.sys.image) && (
-                  <div className="flex flex-wrap justify-center gap-3">
+                  <div className="flex flex-wrap justify-center gap-2">
                     {tierSystems
                       .filter((ts) => ts.sys.image)
                       .map((ts, si) => (
-                        <img key={si} src={ts.sys.image} alt="" className="max-h-[120px] max-w-[45%] object-contain" />
+                        <img key={si} src={ts.sys.image} alt="" className="max-h-[88px] w-full max-w-[160px] object-contain" />
                       ))}
                   </div>
                 )}
@@ -206,10 +209,10 @@ export default function CustomerPresentation({
                     {ts.zone && tierSystems.length > 1 && (
                       <div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-[var(--accent)]">{ts.zone.label}</div>
                     )}
-                    <div className="font-['Outfit'] text-lg font-semibold">
+                    <div className="font-['Outfit'] text-sm font-semibold leading-snug">
                       {ts.sys.brand} {ts.sys.model}
                     </div>
-                    <div className="mt-1 flex flex-wrap justify-center gap-3 text-xs text-[var(--text-muted)]">
+                    <div className="mt-1 flex flex-wrap justify-center gap-x-2 gap-y-0.5 text-[11px] text-[var(--text-muted)]">
                       <span>{ts.sys.size}</span>
                       <span>SEER2: {ts.sys.seer2}</span>
                       <span>{ts.sys.type}</span>
@@ -218,12 +221,12 @@ export default function CustomerPresentation({
                   </div>
                 ))}
 
-                <div>
-                  <h4 className="mb-3 font-['Outfit'] font-semibold">What&apos;s Included</h4>
-                  <ul className="space-y-2">
+                <div className="min-h-0 flex-1">
+                  <h4 className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-[var(--text-muted)]">What&apos;s Included</h4>
+                  <ul className="max-h-52 space-y-1.5 overflow-y-auto pr-0.5 text-left xl:max-h-64">
                     {enabledItems.map((item, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-[var(--text-secondary)]">
-                        <span className="mt-0.5 text-[var(--accent)]">✓</span>
+                      <li key={i} className="flex items-start gap-1.5 text-xs leading-snug text-[var(--text-secondary)]">
+                        <span className="mt-0.5 shrink-0 text-[var(--accent)]">✓</span>
                         <span>{item.name}</span>
                       </li>
                     ))}
@@ -231,37 +234,37 @@ export default function CustomerPresentation({
                 </div>
 
                 {savings && savings.saveCost > 0 && (
-                  <div className="rounded-xl border border-[color:var(--green)_/_0.12] bg-[rgba(52,211,153,0.06)] p-4">
-                    <div className="flex justify-between text-[11px] font-bold uppercase tracking-wide text-[var(--green)]">
-                      <span>Estimated Annual Savings</span>
+                  <div className="rounded-xl border border-[color:var(--green)_/_0.12] bg-[rgba(52,211,153,0.06)] p-3">
+                    <div className="flex flex-wrap items-start justify-between gap-1 text-[10px] font-bold uppercase tracking-wide text-[var(--green)]">
+                      <span>Est. Annual Savings</span>
                       <span className="text-[var(--text-muted)]">vs {currentSeer} SEER</span>
                     </div>
-                    <div className="mt-2 font-['Outfit'] text-3xl font-extrabold text-[var(--green)]">${Math.round(savings.saveCost)}</div>
-                    <div className="text-xs text-[var(--text-muted)]">per year</div>
-                    <p className="mt-3 text-center text-[9px] text-[var(--text-muted)]">
+                    <div className="mt-1.5 font-['Outfit'] text-xl font-extrabold text-[var(--green)]">${Math.round(savings.saveCost)}</div>
+                    <div className="text-[11px] text-[var(--text-muted)]">per year</div>
+                    <p className="mt-2 text-center text-[8px] leading-relaxed text-[var(--text-muted)]">
                       Based on {city?.name ?? "—"} ({coolingHours.toLocaleString()} cooling hrs) · {utility?.name ?? proposal.selectedUtilityRate}{" "}
                       ${rate.toFixed(3)}/kWh
                     </p>
                   </div>
                 )}
 
-                <div className="ct-financing">
-                  <h4 className="mb-3 font-['Outfit'] font-semibold">Financing Options</h4>
+                <div className="ct-financing mt-auto">
+                  <h4 className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-[var(--text-muted)]">Financing Options</h4>
                   <button
                     type="button"
-                    className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-4 text-left"
+                    className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-3 text-left xl:p-4"
                     onClick={() => setExpandedFinancing(expandedFinancing === idx ? null : idx)}
                   >
-                    <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <div className="font-semibold">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+                      <div className="min-w-0">
+                        <div className="text-sm font-semibold leading-tight">
                           {selectedPlan?.vendor}: {selectedPlan?.name}
                         </div>
-                        <div className="text-xs text-[var(--text-muted)]">
+                        <div className="mt-0.5 text-[11px] text-[var(--text-muted)]">
                           {selectedPlan?.term} months · {selectedPlan?.apr}% APR
                         </div>
                       </div>
-                      <div className="shrink-0 font-bold text-[var(--accent)]">{fmt(selectedMonthly)}/mo</div>
+                      <div className="shrink-0 font-bold text-[var(--accent)] sm:text-right">{fmt(selectedMonthly)}/mo</div>
                     </div>
                     <div className="mt-2 text-center text-xs text-[var(--text-muted)]">
                       {expandedFinancing === idx ? "▲ Hide plans" : "▼ View all financing plans"}
@@ -296,7 +299,7 @@ export default function CustomerPresentation({
         })}
       </div>
 
-      <div className="no-print mx-auto mt-12 max-w-5xl px-6 text-center">
+      <div className="no-print mx-auto mt-12 max-w-[1400px] px-6 text-center">
         <button
           type="button"
           onClick={() => setShowApply(true)}
@@ -307,7 +310,7 @@ export default function CustomerPresentation({
         <p className="mt-3 text-xs text-[var(--text-muted)]">Pre-qualify in minutes — subject to lender approval</p>
       </div>
 
-      <footer className="disclaimer mx-auto mt-12 max-w-5xl px-6 text-[11px] leading-relaxed text-[var(--text-muted)]">
+      <footer className="disclaimer mx-auto mt-12 max-w-[1400px] px-6 text-[11px] leading-relaxed text-[var(--text-muted)]">
         *All pricing is subject to approved credit. Monthly payments are estimates based on the selected financing plan.
         Actual terms may vary. Sunbright HVAC® — For a Brighter Tomorrow.
       </footer>
